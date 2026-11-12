@@ -1,0 +1,561 @@
+/* ==========================================================================
+   Лабораторна робота №3. Стилізація резюме зовнішньою таблицею стилів
+   ========================================================================== */
+
+/* 1. Дизайн-токени (власні властивості) ----------------------------------- */
+:root {
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+
+  /* Кольорова палітра: слива → бордо → малиновий → помаранчевий */
+  --palette-plum: #511845;
+  --palette-wine: #900c3f;
+  --palette-crimson: #c70039;
+  --palette-flame: #ff5733;
+
+  --color-bg: #f8f1f6;
+  --color-surface: #ffffff;
+  --color-surface-alt: #fbf3f7;
+  --color-text: #3d2438;
+  --color-heading: var(--palette-plum);
+  --color-muted: #7a5a72;
+  --color-border: #ecd9e6;
+  --color-accent: var(--palette-crimson);
+  --color-accent-soft: #fde4ea;
+  --color-accent-text: var(--palette-wine);
+  --color-on-banner: #ffffff;
+  --gradient-banner: linear-gradient(135deg, var(--palette-plum) 0%, var(--palette-wine) 55%, var(--palette-crimson) 100%);
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+
+  --radius: 0.75rem;
+  --shadow: 0 1.5rem 3.5rem rgb(81 24 69 / 16%), 0 0.5rem 1.25rem rgb(81 24 69 / 8%);
+  --transition: 150ms ease;
+}
+
+/* Темна тема: вмикається класом .dark на <body> (див. js/script.js) */
+body.dark {
+    --color-bg: #160712;
+    --color-surface: #230f20;
+    --color-surface-alt: #2f1629;
+    --color-text: #ead9e6;
+    --color-heading: #ffffff;
+    --color-muted: #b99bb2;
+    --color-border: #4a2444;
+    --color-accent: #ff7a5c;
+    --color-accent-soft: #511845;
+    --color-accent-text: #ffd0c4;
+  --shadow: 0 1.5rem 3.5rem rgb(0 0 0 / 50%);
+  color-scheme: dark;
+}
+
+/* 2. Базові стилі ---------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: light;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+body {
+  margin: 0;
+  min-block-size: 100vh;
+  padding: var(--space-4);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--color-text);
+  background: var(--color-bg);
+  transition: background-color 300ms ease, color 300ms ease;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  line-height: 1.25;
+  color: var(--color-heading);
+}
+
+p {
+  margin: var(--space-2) 0;
+}
+
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+  transition: color var(--transition);
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Видимий індикатор фокуса для клавіатурної навігації */
+a:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: var(--space-1);
+}
+
+/* 3. Контейнер сторінки (блокова модель) ---------------------------------- */
+.page {
+  max-inline-size: 60rem;
+  margin-inline: auto;
+  padding: clamp(1.25rem, 4vw, 3rem);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+/* 4. Шапка та навігація (Flexbox) ----------------------------------------- */
+.site-header {
+  padding: var(--space-6) var(--space-4);
+  text-align: center;
+  color: var(--color-on-banner);
+  background: var(--gradient-banner);
+  border-radius: var(--radius);
+  border-block-end: 0.25rem solid var(--palette-flame);
+}
+
+.site-header__name {
+  color: var(--color-on-banner);
+  font-size: clamp(1.75rem, 5vw, 2.5rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.site-header__role {
+  margin-block: var(--space-1) var(--space-4);
+  color: rgb(255 255 255 / 82%);
+}
+
+.nav-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nav-list__link {
+  display: inline-block;
+  padding: var(--space-1) var(--space-4);
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--color-on-banner);
+  background: rgb(255 255 255 / 12%);
+  border-radius: 999px;
+}
+
+.nav-list__link:hover {
+  color: var(--palette-plum);
+  background: var(--palette-flame);
+  text-decoration: none;
+}
+
+.nav-list__link:focus-visible {
+  outline-color: var(--color-on-banner);
+}
+
+/* 5. Макет основного вмісту (Grid) ---------------------------------------- */
+.content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+  gap: var(--space-6);
+  margin-block: var(--space-6);
+}
+
+.section {
+  padding: var(--space-6);
+  border: 1px solid var(--color-border);
+  border-block-start: 0.25rem solid var(--palette-crimson);
+  border-radius: var(--radius);
+}
+
+.section--wide {
+  grid-column: 1 / -1;
+}
+
+.section__title {
+  margin-block-end: var(--space-4);
+  font-size: 1.25rem;
+  text-align: center;
+}
+
+/* Акцентна лінія під заголовком — псевдоелемент */
+.section__title::after {
+  content: "";
+  display: block;
+  inline-size: 2.5rem;
+  block-size: 0.25rem;
+  margin: var(--space-2) auto 0;
+  background: var(--palette-flame);
+  border-radius: 999px;
+}
+
+.section p {
+  text-align: center;
+}
+
+/* 6. Картки ---------------------------------------------------------------- */
+.card {
+  margin-block-start: var(--space-3);
+  padding: var(--space-4);
+  background: var(--color-surface-alt);
+  border-radius: var(--radius);
+}
+
+.card__title {
+  margin-block-end: var(--space-2);
+  font-size: 1.05rem;
+  text-align: center;
+}
+
+.card__list {
+  inline-size: fit-content;
+  margin: var(--space-2) auto 0;
+  padding-inline-start: var(--space-6);
+}
+
+/* 7. Навички у вигляді «чіпів» (Flexbox) ---------------------------------- */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.chips li {
+  padding: var(--space-1) var(--space-4);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #fff;
+  background: var(--palette-plum);
+  border-radius: 999px;
+}
+
+/* Чіпи по черзі отримують кольори палітри */
+.chips li:nth-child(4n + 1) {
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 18%);
+}
+
+.chips li:nth-child(4n + 2) {
+  background: var(--palette-wine);
+}
+
+.chips li:nth-child(4n + 3) {
+  background: var(--palette-crimson);
+}
+
+.chips li:nth-child(4n) {
+  color: var(--palette-plum);
+  background: var(--palette-flame);
+}
+
+/* 8. Підвал ---------------------------------------------------------------- */
+.site-footer {
+  padding-block-start: var(--space-6);
+  text-align: center;
+  border-block-start: 0.25rem solid var(--palette-flame);
+}
+
+.contacts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-1) var(--space-6);
+  font-style: normal;
+}
+
+.contacts p {
+  margin: 0;
+}
+
+.copyright {
+  margin-block-start: var(--space-4);
+  color: var(--color-muted);
+}
+
+/* 11. Лабораторна №4: перемикач теми ------------------------------------- */
+.theme-toggle {
+  margin-block-end: var(--space-4);
+  padding: var(--space-1) var(--space-4);
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--palette-plum);
+  background: var(--palette-flame);
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: transform var(--transition);
+}
+
+.theme-toggle:hover {
+  transform: translateY(-1px);
+}
+
+.theme-toggle:focus-visible,
+.button:focus-visible,
+.modal__close:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+/* 12. Відгуки -------------------------------------------------------------- */
+.reviews {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
+  gap: var(--space-4);
+}
+
+.review {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  border-inline-start: 0.25rem solid var(--palette-flame);
+}
+
+.review__email {
+  align-self: center;
+  font-size: 0.85rem;
+}
+
+.section .review__body {
+  text-align: start;
+  white-space: pre-line;
+}
+
+/* 13. localStorage у футері ----------------------------------------------- */
+.storage {
+  margin-block-start: var(--space-4);
+  text-align: start;
+}
+
+.storage summary {
+  text-align: center;
+  font-weight: 600;
+  color: var(--color-heading);
+  cursor: pointer;
+}
+
+.storage__list {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: var(--space-1) var(--space-4);
+  margin: var(--space-3) 0 0;
+  padding: var(--space-4);
+  font-size: 0.85rem;
+  background: var(--color-surface-alt);
+  border-radius: var(--radius);
+}
+
+.storage__list dt {
+  font-weight: 600;
+  color: var(--color-accent-text);
+}
+
+.storage__list dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+/* 14. Модальне вікно та форма --------------------------------------------- */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: grid;
+  place-items: center;
+  padding: var(--space-4);
+  background: rgb(22 7 18 / 60%);
+}
+
+.modal[hidden] {
+  display: none;
+}
+
+.modal__dialog {
+  position: relative;
+  inline-size: min(100%, 28rem);
+  max-block-size: calc(100vh - 2rem);
+  overflow-y: auto;
+  padding: var(--space-8) var(--space-6) var(--space-6);
+  background: var(--color-surface);
+  border-block-start: 0.25rem solid var(--palette-crimson);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.modal__close {
+  position: absolute;
+  inset-block-start: var(--space-2);
+  inset-inline-end: var(--space-2);
+  inline-size: 2.25rem;
+  block-size: 2.25rem;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--color-muted);
+  background: transparent;
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.modal__close:hover {
+  color: var(--color-accent);
+  background: var(--color-accent-soft);
+}
+
+.form {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.form__field {
+  display: grid;
+  gap: var(--space-1);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-heading);
+}
+
+.form__field input,
+.form__field textarea {
+  padding: var(--space-2) var(--space-3);
+  font: inherit;
+  font-weight: 400;
+  color: var(--color-text);
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+  border-radius: calc(var(--radius) / 1.5);
+}
+
+.form__field input:focus,
+.form__field textarea:focus {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 0;
+  border-color: transparent;
+}
+
+.button {
+  justify-self: center;
+  padding: var(--space-2) var(--space-8);
+  font: inherit;
+  font-weight: 600;
+  color: #fff;
+  background: var(--gradient-banner);
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.button:hover {
+  filter: brightness(1.1);
+}
+
+.button:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+/* Повідомлення сервера під формою (ЛР6) */
+.form__status {
+  margin: 0;
+  padding: var(--space-2) var(--space-3);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.form__status--ok {
+  color: #14532d;
+  background: #dcfce7;
+  border: 1px solid #86efac;
+}
+
+.form__status--error {
+  color: #7f1d1d;
+  background: #fee2e2;
+  border: 1px solid #fca5a5;
+}
+
+/* 15. Кнопка відкриття форми ---------------------------------------------- */
+.contact-fab {
+  position: fixed;
+  inset-block-end: var(--space-4);
+  inset-inline-end: var(--space-4);
+  z-index: 5;
+  padding: var(--space-2) var(--space-4);
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #fff;
+  background: var(--gradient-banner);
+  border: 0;
+  border-radius: 999px;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  transition: transform var(--transition);
+}
+
+.contact-fab:hover {
+  transform: translateY(-2px);
+}
+
+.contact-fab:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+/* 9. Адаптивність ---------------------------------------------------------- */
+@media (max-width: 40rem) {
+  body {
+    padding: var(--space-2);
+  }
+
+  .section {
+    padding: var(--space-4);
+  }
+}
+
+/* 10. Друк ----------------------------------------------------------------- */
+@media print {
+  body {
+    padding: 0;
+    background: #fff;
+  }
+
+  .page {
+    border: 0;
+    box-shadow: none;
+  }
+
+  .nav-list,
+  .theme-toggle,
+  .contact-fab,
+  .storage,
+  .modal {
+    display: none;
+  }
+}

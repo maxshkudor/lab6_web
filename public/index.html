@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Резюме студента-програміста">
+  <meta name="author" content="Шкудор Максим">
+  <title>Резюме — Шкудор Максим</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="page">
+    <header class="site-header">
+      <h1 class="site-header__name">Шкудор Максим</h1>
+      <p class="site-header__role">Студент-програміст</p>
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-pressed="false">🌙 Нічний режим</button>
+      <nav>
+        <ul class="nav-list">
+          <li><a class="nav-list__link" href="#about">Про мене</a></li>
+          <li><a class="nav-list__link" href="#experience">Досвід</a></li>
+          <li><a class="nav-list__link" href="#education">Освіта</a></li>
+          <li><a class="nav-list__link" href="#skills">Навички</a></li>
+          <li><a class="nav-list__link" href="#reviews">Відгуки</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="content">
+      <section class="section section--wide" id="about">
+        <h2 class="section__title">Про мене</h2>
+        <p>Студент Національного університету «Львівська політехніка», цікавлюся програмуванням і веброзробкою. Беру участь у хакатонах та хочу розвиватися у напрямку розробки програмного забезпечення.</p>
+      </section>
+
+      <section class="section" id="experience">
+        <h2 class="section__title">Досвід роботи</h2>
+        <p>Комерційного досвіду роботи поки немає.</p>
+        <article class="card">
+          <h3 class="card__title">Навчальні проєкти</h3>
+          <ul class="card__list">
+            <li>Участь у хакатоні</li>
+          </ul>
+        </article>
+      </section>
+
+      <section class="section" id="education">
+        <h2 class="section__title">Освіта</h2>
+        <article class="card">
+          <h3 class="card__title">Національний університет «Львівська політехніка»</h3>
+          <p>2025 – 2029</p>
+        </article>
+      </section>
+
+      <section class="section section--wide" id="skills">
+        <h2 class="section__title">Навички</h2>
+        <ul class="chips">
+          <li>Python</li>
+          <li>Java</li>
+          <li>JavaScript, React</li>
+          <li>Git, GitHub</li>
+          <li>Docker</li>
+          <li>Англійська — B2+</li>
+        </ul>
+      </section>
+
+      <section class="section section--wide" id="reviews">
+        <h2 class="section__title">Відгуки попередніх роботодавців</h2>
+        <p id="reviews-status">Завантаження відгуків…</p>
+        <div class="reviews" id="reviews-list"></div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <h2 class="section__title">Контакти</h2>
+      <address class="contacts">
+        <p>Email: <a href="mailto:mshkudor091@gmail.com">mshkudor091@gmail.com</a></p>
+        <p>GitHub: <a href="https://github.com/maxshkudor" target="_blank" rel="noopener">github.com/maxshkudor</a></p>
+        <p>LinkedIn: <a href="https://www.linkedin.com/in/max-shkudor-17036b37b" target="_blank" rel="noopener">linkedin.com/in/max-shkudor-17036b37b</a></p>
+      </address>
+      <details class="storage">
+        <summary>Інформація про систему (localStorage)</summary>
+        <dl class="storage__list" id="storage-list"></dl>
+      </details>
+      <p class="copyright"><small>&copy; 2026 Шкудор Максим</small></p>
+    </footer>
+  </div>
+
+  <!-- Кнопка для відкриття форми зворотного зв'язку вручну -->
+  <button type="button" class="contact-fab" id="open-contact">✉️ Зворотний зв'язок</button>
+
+  <!-- Модальне вікно з формою зворотного зв'язку (з'являється через 1 хвилину) -->
+  <div class="modal" id="contact-modal" hidden>
+    <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <button type="button" class="modal__close" id="modal-close" aria-label="Закрити">&times;</button>
+      <h2 class="section__title" id="modal-title">Зворотний зв'язок</h2>
+      <form class="form" id="contact-form" novalidate>
+        <label class="form__field">
+          Ім'я
+          <input type="text" name="name" id="contact-name" required maxlength="100" autocomplete="name">
+        </label>
+        <label class="form__field">
+          Email
+          <input type="email" name="email" required maxlength="254" autocomplete="email">
+        </label>
+        <label class="form__field">
+          Номер телефону (необов'язково)
+          <input type="tel" name="phone" maxlength="30" autocomplete="tel" placeholder="+380 (XX) XXX-XX-XX">
+        </label>
+        <label class="form__field">
+          Тема
+          <input type="text" name="subject" required maxlength="150">
+        </label>
+        <label class="form__field">
+          Повідомлення
+          <textarea name="message" rows="4" required maxlength="2000"></textarea>
+        </label>
+        <button type="submit" class="button">Надіслати</button>
+        <p class="form__status" id="form-status" role="status" aria-live="polite" hidden></p>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

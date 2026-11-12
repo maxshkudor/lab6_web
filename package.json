@@ -1,0 +1,20 @@
+{
+  "name": "lab6-server",
+  "version": "1.0.0",
+  "description": "Лабораторна робота №6: Node.js-сервер на hapi з формою зворотного зв'язку та збереженням у JSON Lines",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "Maksym Shkudor",
+  "license": "ISC",
+  "dependencies": {
+    "@hapi/hapi": "^21.4.13",
+    "@hapi/inert": "^7.1.3"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "private": true
+}
